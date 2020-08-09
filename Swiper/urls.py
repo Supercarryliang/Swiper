@@ -16,6 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from user import  api as user_api
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
+    url(r'^user/get_vcode/',user_api.get_vcode),
+    url(r'^user/check_vcode/',user_api.check_vcode),
 ]
