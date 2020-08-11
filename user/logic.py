@@ -1,8 +1,10 @@
 import  re
 import random
 import requests
+from django.core.cache import cache
 
 from Swiper import config
+from common.keys import VCODE_KEY
 
 
 def is_phonenum(phone_num):
@@ -37,11 +39,15 @@ def send_sms(v_code,phone_num):
 def send_vcode(phone_num):
     '''发送验证吗'''
     v_code=gen_random_vcode(4)     #产生一个随机的验证码
+
+    print('------------------>',v_code)
     response=send_sms(v_code,phone_num) #发送验证码
 
     #检查发送状态是否成功
-    if response.status_code==200:
-        result=response.json()
-        if result.get('code')=='000000':
-            return True
-    return False
+    # if response.status_code==200:
+    #     result=response.json()
+    #     if result.get('code')=='000000':
+    key=VCODE_KEY%phone_num#为了以后能快速标识
+    cache.set(key,v_code,180)#将验证码添加到缓存中
+    #         return True
+    # return False
