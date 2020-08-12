@@ -4,6 +4,7 @@ from django.core.cache import cache
 from libs.https import render_json
 from common import errors, keys
 from user import logic
+from user.froms import  Profile_Form
 
 from user.models import User
 
@@ -51,3 +52,16 @@ def get_profile(request):
     '''获取用户个人资料'''
     data=request.user.profile.to_dict()
     return  render_json(data=data)
+
+
+
+def set_profile(request):
+    '''对表单进行数据验证'''
+    form=Profile_Form(request.POST)#request.POST是一个类字典,而且里面是from表单提交的所有数据
+    if form.is_valid():            #is_valid()函数判断的是值是否是有效的
+        profile=form.save(commit=False)         #form.save()这个方法是django框架给我们提供的,会将from中的值自动赋到关联的表中
+        profile.id=request.session['uid']       #commit=False是为了防止它创建后直接提交,会在数据库中新添加一条数据,达不到我们的目的
+        profile.save()                          #将用户id即profile的id赋予给profile然后保存就实现了修改
+        return render_json()
+    else:
+        return render_json(form.errors,errors.PROFILE_ERR) #form.errors是form中的一些错误信息

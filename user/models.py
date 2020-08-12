@@ -70,8 +70,8 @@ class Profile(models.Model,ModelMixin):
         ('cd', '成都'),
     )
     location=models.CharField(max_length=8,verbose_name='⽬标城市',choices=LOCATION)
-    min_distance=models.IntegerField(default=1,verbose_name='最小查找范围')
     dating_sex=models.CharField(max_length=8,choices=SEX,verbose_name='匹配的性别')
+    min_distance=models.IntegerField(default=1,verbose_name='最小查找范围')
     max_distance=models.IntegerField(default=10,verbose_name='最⼤查找范围')
     min_dating_age=models.IntegerField(default=22,verbose_name='最⼩交友年龄')
     max_dating_age=models.IntegerField(default=50,verbose_name='最⼤交友年龄')
