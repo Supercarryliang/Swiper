@@ -45,3 +45,9 @@ def check_vcode(request):
             return render_json(code=errors.VCODE_ERR)#如果验证码错误.返回一个error
     else:
         return render_json(code=errors.PHONENUM_ERR)
+
+
+def get_profile(request):
+    '''获取用户个人资料'''
+    data=request.user.profile.to_dict()
+    return  render_json(data=data)

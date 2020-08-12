@@ -1,9 +1,10 @@
 from django.db import models
 
 # Create your models here.
+from libs.orm import ModelMixin
 
 
-class User(models.Model):
+class User(models.Model,ModelMixin):
     SEX=(
         ('male','男性'),
         ('female','女性')
@@ -28,7 +29,7 @@ class User(models.Model):
 
     #创建一个方法获取用户的profile属性
     @property   #@property装饰器是将一个方法转换成属性
-    def proflie(self):
+    def profile(self):
         #如果没有_profile属性才会去执行创建或者获取这个对象与数据库进行交互,
         #如果有了直接就能.出这个属性
         if not hasattr(self,'_profile'):
@@ -37,25 +38,25 @@ class User(models.Model):
         return self._profile
 
 
-    def to_dict(self):
-        return {
-            'phonenum':self.phonenum,
-            'nickname':self.nickname,
-            'sex':self.sex,
-            'birth_year':self.birth_year,
-            'birth_month':self.birth_month,
-            'birth_day':self.birth_day,
-            'avatar':self.avatar,
-            'location':self.location,
-
-        }
+    # def to_dict(self):
+    #     return {
+    #         'phonenum':self.phonenum,
+    #         'nickname':self.nickname,
+    #         'sex':self.sex,
+    #         'birth_year':self.birth_year,
+    #         'birth_month':self.birth_month,
+    #         'birth_day':self.birth_day,
+    #         'avatar':self.avatar,
+    #         'location':self.location,
+    #
+    #     }
 
 
 
     class Meta:
         db_table='user'
 
-class Profile(models.Model):
+class Profile(models.Model,ModelMixin):
     SEX = (
         ('male', '男性'),
         ('female', '女性')
@@ -80,7 +81,7 @@ class Profile(models.Model):
 
 
     class Meta:
-        db_table='profile '
+        db_table='profile'
 
 
 

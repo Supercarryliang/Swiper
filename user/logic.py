@@ -49,5 +49,6 @@ def send_vcode(phone_num):
     #     if result.get('code')=='000000':
     key=VCODE_KEY%phone_num#为了以后能快速标识
     cache.set(key,v_code,180)#将验证码添加到缓存中
+    print(cache.get(key))
     #         return True
     # return False
