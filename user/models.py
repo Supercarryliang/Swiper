@@ -24,7 +24,7 @@ class User(models.Model,ModelMixin):
     birth_month=models.IntegerField(default=1,verbose_name='出生月份')
     birth_day=models.IntegerField(default=1,verbose_name='出生日')
     #这个个人形象存放的是一个链接,所以最大长度给了256
-    avatar=models.CharField(max_length=256,verbose_name='个人形象')
+    avatar=models.CharField(max_length=256,verbose_name='个人形象的url')
     location=models.CharField(max_length=8,choices=LOCATION,verbose_name='长居地')
 
     #创建一个方法获取用户的profile属性

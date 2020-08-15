@@ -13,3 +13,11 @@ YZX_SMS_ARGUS={
      "param":None,
      "mobile":None,
     }
+
+
+#七牛云文件上传配置
+QN_ACCESS_KEY='nV-23RbGWOa1ALHx6TZtlYnJCLXuuSzUjYcfJbm_'   #这两个是七牛云
+QN_SECRET_KEY='0AP4zdSkbJtlfqGScUfM9wehVudZVYjJNDgz2kQc'   #自动生成的密钥
+
+QN_BUCKET='zgl-swiper'                                               #库的名字
+QN_BASE_URL='http://qf1omxkok.hd-bkt.clouddn.com'

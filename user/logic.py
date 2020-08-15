@@ -1,10 +1,14 @@
+import os
 import  re
 import random
 import requests
+from django.conf import settings
 from django.core.cache import cache
 
 from Swiper import config
 from common.keys import VCODE_KEY
+from libs.qncloud import qn_upload
+from worker import celery_app
 
 
 def is_phonenum(phone_num):
@@ -52,3 +56,25 @@ def send_vcode(phone_num):
     print(cache.get(key))
     #         return True
     # return False
+
+
+def save_upload_file(upload_file,uid):
+    """保存上传文件到本地"""
+
+    file_name='Avatar-%s.png'%uid               #文件名称
+    full_path=os.path.join(settings.MEDIA_DIRS,file_name)  #文件的完整路径
+    with open(full_path,'wb') as fp:
+        for chunk in upload_file.chunks():
+            fp.write(chunk)
+
+    return full_path,file_name
+
+
+
+@celery_app.task   #用装饰器实现对该方法的异步处理
+def save_avatar(user,avatar):
+    '''上传个人头像'''
+    full_path, file_name = save_upload_file(avatar, user.id)  # 保存文件到本地
+    _, avatar_url = qn_upload(file_name, full_path)  # 上传文件到七牛云
+    user.avatar = avatar_url  # 将文件url给user
+    user.save()

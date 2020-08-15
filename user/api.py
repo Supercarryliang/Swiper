@@ -5,6 +5,7 @@ from libs.https import render_json
 from common import errors, keys
 from user import logic
 from user.froms import  Profile_Form
+from user.logic import save_avatar
 
 from user.models import User
 
@@ -65,3 +66,11 @@ def set_profile(request):
         return render_json()
     else:
         return render_json(form.errors,errors.PROFILE_ERR) #form.errors是form中的一些错误信息
+
+
+
+def upload_avatar(request):
+    '''上传个人头像'''
+    avatar=request.FILES.get('avatar')   #request.FILES中就是包含用户提交的所有属性
+    save_avatar.delay(request.user,avatar)   #delay完成celery
+    return render_json()

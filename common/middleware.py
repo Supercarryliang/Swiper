@@ -5,7 +5,7 @@ from libs.https import render_json
 from user.models import User
 
 
-class AuthModdleware(MiddlewareMixin):
+class AuthMiddleware(MiddlewareMixin):
     AUTH_URL_WHITE_LIST=[
         '/api/user/get_vcode',
         '/api/user/check_vcode',
