@@ -64,7 +64,7 @@ class Profile(models.Model,ModelMixin):
     LOCATION = (
         ('bj', '北京'),
         ('sh', '上海'),
-        ('wh', '芜湖'),
+        ('ah', '安徽'),
         ('sz', '深圳'),
         ('wh', '武汉'),
         ('cd', '成都'),
