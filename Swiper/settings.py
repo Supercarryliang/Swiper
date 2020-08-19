@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user',
+    'social',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'common.middleware.AuthMiddleware',
+    'common.middleware.LogicErrMiddleware'
 ]
 
 ROOT_URLCONF = 'Swiper.urls'
@@ -106,6 +108,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+CACHES={
+    'default':{
+        'BACKEND':'django.core.cache.backends.db.DatabaseCache',#后台
+        'LOCATION':'my_cache_table',#你的cache数据表的名字
+        'TIMEOUT':60*5  #过期时间
+    }
+}
+
 
 
 # Internationalization

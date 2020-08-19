@@ -18,7 +18,7 @@ def  get_vcode(request):
         logic.send_vcode(phone_num)
         return render_json()
     else:
-        return render_json(code=errors.PHONENUM_ERR)
+        raise errors.PhonenumErr
 
 
 
@@ -44,9 +44,9 @@ def check_vcode(request):
             request.session['uid']=user.id   #用session保存用户的状态
             return render_json(data=user.to_dict()) #将用户的信息返回给页面
         else:
-            return render_json(code=errors.VCODE_ERR)#如果验证码错误.返回一个error
+            raise errors.VcodeErr#如果验证码错误.返回一个error
     else:
-        return render_json(code=errors.PHONENUM_ERR)
+        raise errors.PhonenumErr
 
 
 def get_profile(request):
@@ -65,7 +65,7 @@ def set_profile(request):
         profile.save()                          #将用户id即profile的id赋予给profile然后保存就实现了修改
         return render_json()
     else:
-        return render_json(form.errors,errors.PROFILE_ERR) #form.errors是form中的一些错误信息
+        raise errors.ProfileErr(form.errors)#form.errors是form中的一些错误信息
 
 
 
