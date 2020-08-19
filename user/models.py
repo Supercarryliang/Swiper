@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 from libs.orm import ModelMixin
+from social.models import Friend
 
 
 class User(models.Model,ModelMixin):
@@ -38,6 +39,13 @@ class User(models.Model,ModelMixin):
         return self._profile
 
 
+    @property
+    def friends(self):
+        '''user的所有好友'''
+        friend_id_list=Friend.friend_sid(self)
+        friends_info=[friend.to_dict() for friend in User.objects.filter(id__in=friend_id_list)]
+        return friends_info
+
     # def to_dict(self):
     #     return {
     #         'phonenum':self.phonenum,
@@ -64,7 +72,7 @@ class Profile(models.Model,ModelMixin):
     LOCATION = (
         ('bj', '北京'),
         ('sh', '上海'),
-        ('wh', '芜湖'),
+        ('ah', '安徽'),
         ('sz', '深圳'),
         ('wh', '武汉'),
         ('cd', '成都'),

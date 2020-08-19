@@ -25,8 +25,16 @@ class AuthMiddleware(MiddlewareMixin):
                 request.user=User.objects.get(id=uid)#ruquest.user意思就是将user附加到这次request上
                 return
             except User.DoesNotExist:
-                return render_json(code=errors.USER_DOESNOTEXIST)
+                return render_json(code=errors.UserDoesNotExist.code)
         else:
-            return render_json(code=errors.LOGIN_REQIRED)#如果未登录返回一个错误码给前端
+            return render_json(code=errors.LoginReqired.code)#如果未登录返回一个错误码给前端
 
 
+
+
+class LogicErrMiddleware(MiddlewareMixin):
+    '''捕获异常对象'''
+    def process_exception(self,request,exception):  #exception是被捕获的异常对象
+        if isinstance(exception,errors.LogicErr):  #isinstance(object, classinfo)object是一个实例对象,是一个类名
+           data=exception.data or str(exception)                                       # 判断当前实例对象是否是该类或其子类下的对象
+           return render_json(data=data,code=exception.code)

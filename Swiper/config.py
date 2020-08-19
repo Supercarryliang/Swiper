@@ -21,3 +21,7 @@ QN_SECRET_KEY='0AP4zdSkbJtlfqGScUfM9wehVudZVYjJNDgz2kQc'   #自动生成的密�
 
 QN_BUCKET='zgl-swiper'                                               #库的名字
 QN_BASE_URL='http://qf1omxkok.hd-bkt.clouddn.com'
+
+
+#最大反悔次数
+REWIND_LIMIT=3
