@@ -49,6 +49,7 @@ class User(models.Model,ModelMixin):
         if not hasattr(self,'_vip'):
             self._vip=Vip.objects.get(id=self.vip_id)
         return self._vip
+
     @property
     def friends(self):
         '''user的所有好友'''
