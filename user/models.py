@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 from libs.orm import ModelMixin
 from social.models import Friend
+from vip.models import Vip
 
 
 class User(models.Model,ModelMixin):
@@ -28,6 +29,10 @@ class User(models.Model,ModelMixin):
     avatar=models.CharField(max_length=256,verbose_name='个人形象的url')
     location=models.CharField(max_length=8,choices=LOCATION,verbose_name='长居地')
 
+    #用户的会员等级用唯一的id来记录
+    vip_id=models.IntegerField(default=1,verbose_name='权限的id')
+
+
     #创建一个方法获取用户的profile属性
     @property   #@property装饰器是将一个方法转换成属性
     def profile(self):
@@ -38,7 +43,12 @@ class User(models.Model,ModelMixin):
             self._profile,_=Profile.objects.get_or_create(id=self.id)
         return self._profile
 
-
+    @property
+    def vip(self):
+        '''用户的会员信息'''
+        if not hasattr(self,'_vip'):
+            self._vip=Vip.objects.get(id=self.vip_id)
+        return self._vip
     @property
     def friends(self):
         '''user的所有好友'''

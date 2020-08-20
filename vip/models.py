@@ -12,6 +12,12 @@ class Vip(models.Model):
         db_table='vip'
 
 
+    def perms(self):
+        '''获取vip所对应的权限'''
+        #获取当前vip等级对应所有的权限的id
+        perm_id_list=VipPermRelation.objects.filter(vip_id=self.id).values_list('perm_id',flat=True)
+        return Permission.objects.filter(id__in=perm_id_list)
+
 class Permission(models.Model):
     '''权限表'''
     name=models.CharField(max_length=10,verbose_name='权限名字')
