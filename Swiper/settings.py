@@ -75,6 +75,42 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Swiper.wsgi.application'
 
 
+#Django缓存默认配置
+# CACHES={
+#     'default':{
+#         'BACKEND':'django.core.cache.backends.db.DatabaseCache',
+#     }
+# }
+
+
+
+
+# #Django数据库缓存配置
+# CACHES={
+#     'default':{
+#         'BACKEND':'django.core.cache.backends.db.DatabaseCache',#后台
+#         'LOCATION':'my_cache_table',#你的cache数据表的名字
+#         'TIMEOUT':60*5  #过期时间
+#     }
+# }
+
+#基于Redis的缓存配置
+CACHES={
+    "default":{
+        "BACKEND":"django_redis.cache.RedisCache",
+        "LOCATION":"redis://127.0.0.1:6379/1",
+        "OPTIONS":{
+            "CLIENT_CLASS":"django_redis.client.DefaultClient",
+            "PICKLE_VERSION":-1,
+        }
+    }
+}
+
+
+
+
+
+
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -110,13 +146,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CACHES={
-    'default':{
-        'BACKEND':'django.core.cache.backends.db.DatabaseCache',#后台
-        'LOCATION':'my_cache_table',#你的cache数据表的名字
-        'TIMEOUT':60*5  #过期时间
-    }
-}
+
 
 
 
@@ -141,3 +171,63 @@ STATIC_URL = '/static/'
 
 
 MEDIA_DIRS=os.path.join(BASE_DIR,'medias')
+
+
+
+# #日志配置
+#
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+# # 格式配置
+#     'formatters': {
+#         'simple': {
+#             'format': '%(asctime)s %(module)s.%(funcName)s: %(message)s',
+#             'datefmt': '%Y-%m-%d %H:%M:%S',
+#         },
+#         'verbose': {
+#             'format': ('%(asctime)s %(levelname)s [%(process)d-%(threadName)s] '
+#                   '%(module)s.%(funcName)s line %(lineno)d: %(message)s'),
+#             'datefmt': '%Y-%m-%d %H:%M:%S',
+#         },
+#     },
+#  # Handler 配置
+#      'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#             'level': 'DEBUG' if DEBUG else 'WARNING'
+#         },
+#         'info': {
+#             'class': 'logging.handlers.TimedRotatingFileHandler',
+#             'filename': f'{BASE_DIR}/logs/info.log', # ⽇志保存路径
+#             'when': 'D', # 每天切割⽇志
+#             'backupCount': 30, # ⽇志保留 30 天
+#             'formatter': 'simple',
+#             'level': 'INFO',
+#         },
+#         'error': {
+#              'class': 'logging.handlers.TimedRotatingFileHandler',
+#              'filename': f'{BASE_DIR}/logs/error.log', # ⽇志保存路径
+#              'when': 'W0', # 每周⼀切割⽇志
+#              'backupCount': 4, # ⽇志保留 4 周
+#              'formatter': 'verbose',
+#              'level': 'WARNING',
+#         }
+#     },
+#      # Logger 配置
+#      'loggers': {
+#          'django': {
+#             'handlers': ['console'],
+#          },
+#          'inf': {
+#              'handlers': ['info'],
+#              'propagate': True,
+#              'level': 'INFO',
+#          },
+#          'err': {
+#              'handlers': ['error'],
+#              'propagate': True,
+#              'level': 'WARNING',
+#         }
+#     }
+# }
