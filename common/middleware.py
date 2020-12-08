@@ -36,5 +36,5 @@ class LogicErrMiddleware(MiddlewareMixin):
     '''捕获异常对象'''
     def process_exception(self,request,exception):  #exception是被捕获的异常对象
         if isinstance(exception,errors.LogicErr):  #isinstance(object, classinfo)object是一个实例对象,是一个类名
-           data=exception.data or str(exception)                                       # 判断当前实例对象是否是该类或其子类下的对象
+           data=exception.data or str(exception)  # 判断当前实例对象是否是该类或其子类下的对象
            return render_json(data=data,code=exception.code)

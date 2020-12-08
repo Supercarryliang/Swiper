@@ -15,6 +15,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Swiper.settings")
 django.setup()
 
 from user.models import User
+from vip.models import Vip, Permission, VipPermRelation
 
 last_names=(
 '赵钱孙李周吴郑王'
@@ -65,5 +66,82 @@ def create_robot(n):
         except django.db.utils.IntegrityError:
             pass
 
+
+
+
+def vip_init():
+    '''初始化vip表'''
+    for i in range(4):
+        vip,_=Vip.objects.get_or_create(
+            name='%s级会员'%i,
+            level=i,
+            price=5.0*i,
+        )
+        print('创建了会员%s'%i)
+
+
+def permission_init():
+    '''初始化权限表'''
+    permission_description=(
+        ('superlike','超级喜欢',),
+        ('rewind','反悔',),
+        ('show_liked_me','查看喜欢过我的人',)
+    )
+
+    for name,des in permission_description:
+            permission,_=Permission.objects.get_or_create(
+                name=name,description=des
+            )
+
+
+
+def vip_perm_init():
+    '''会员权限关系表初始化'''
+    #获取vip
+    vip1=Vip.objects.get(level=1)
+    vip2=Vip.objects.get(level=2)
+    vip3=Vip.objects.get(level=3)
+
+    #获取权限
+    superlike=Permission.objects.get(name='superlike')
+    rewind=Permission.objects.get(name='rewind')
+    show_liked_me=Permission.objects.get(name='show_liked_me')
+
+    #创建1级会员权限
+    VipPermRelation.objects.get_or_create(vip_id=vip1.id,perm_id=superlike.id)
+
+
+    #创建2级会员权限
+    VipPermRelation.objects.get_or_create(vip_id=vip2.id,perm_id=superlike.id)
+    VipPermRelation.objects.get_or_create(vip_id=vip2.id,perm_id=rewind.id)
+
+
+    #创建3级会员权限
+    VipPermRelation.objects.get_or_create(vip_id=vip3.id,perm_id=superlike.id)
+    VipPermRelation.objects.get_or_create(vip_id=vip3.id,perm_id=rewind.id)
+    VipPermRelation.objects.get_or_create(vip_id=vip3.id,perm_id=show_liked_me.id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__=='__main__':
-    create_robot(100)
+    # create_robot(100)
+    vip_init()
+    permission_init()
+    vip_perm_init()

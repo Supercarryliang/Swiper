@@ -18,6 +18,7 @@ from django.contrib import admin
 
 from user import  api as user_api
 from social import api as social_api
+from vip import api as vip_api
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -37,6 +38,10 @@ urlpatterns = [
     url(r'api/social/get_friends',social_api.get_friends),
     url(r'api/social/rewind',social_api.rewind),
     url(r'api/social/get_liked_me',social_api.get_liked_me),
+
+
+
+    url(r'api/vip/show_vip_perm',vip_api.show_vip_perm),
 
 
 

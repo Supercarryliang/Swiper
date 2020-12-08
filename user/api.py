@@ -51,8 +51,20 @@ def check_vcode(request):
 
 def get_profile(request):
     '''获取用户个人资料'''
-    data=request.user.profile.to_dict()
-    return  render_json(data=data)
+
+    key=keys.PROFILE_KEY%request.user.id
+    #去缓存中取其对应的key
+    profile_dict=cache.get(key)
+
+    print('从缓存获取%s'%profile_dict)
+
+    #如果获取不到再去数据库中取
+    if profile_dict is  None:
+        profile_dict=request.user.profile.to_dict()
+        print('从数据库获取%s'%profile_dict)
+        cache.set(key,profile_dict,3600)
+        print('写入缓存')
+    return  render_json(data=profile_dict)
 
 
 
@@ -63,6 +75,10 @@ def set_profile(request):
         profile=form.save(commit=False)         #form.save()这个方法是django框架给我们提供的,会将from中的值自动赋到关联的表中
         profile.id=request.session['uid']       #commit=False是为了防止它创建后直接提交,会在数据库中新添加一条数据,达不到我们的目的
         profile.save()                          #将用户id即profile的id赋予给profile然后保存就实现了修改
+
+        #修改缓存
+        key=keys.PROFILE_KEY%request.user.id
+        cache.set(key,profile.to_dict(),3600)
         return render_json()
     else:
         raise errors.ProfileErr(form.errors)#form.errors是form中的一些错误信息

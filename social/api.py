@@ -8,6 +8,7 @@ from social import logic
 from social.logic import get_recommond_list, like_someone, superlike_someone
 from social.models import Swiped, Friend
 from user.models import User
+from vip.logic import need_perm
 
 
 def get_recommond(request):
@@ -31,6 +32,7 @@ def like(request):
     matched=like_someone(request.user,sid)  #返回匹配的结果，True or False
     return render_json({'is_matched':matched})
 
+@need_perm('superlike')
 def superlike(request):
     '''滑动超级喜欢的人'''
     sid=int(request.POST.get('sid'))   #获取请求中你滑动的用户id
@@ -41,12 +43,12 @@ def get_friends(request):
     friends_info=request.user.friends
     return render_json(friends_info)
 
-
+@need_perm('rewind')
 def rewind(request):
     logic.rewind(request.user)
     return render_json()
 
-
+@need_perm('show_liked_me')
 def get_liked_me(request):
     '''获取谁喜欢过我的用户信息'''
     liked_me_uid_list=Swiped.who_liked_me(request.user.id)
