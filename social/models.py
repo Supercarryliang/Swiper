@@ -27,7 +27,7 @@ class Swiped(models.Model):
         if s_type not in ('dislike','like','superlike'):
             raise errors.StypeErr
         #为了防止重复创建使用get_or_create方法
-        swipe,_=cls.objects.get_or_create(uid=uid,sid=sid,s_type=s_type)
+        swipe,_=cls.get_or_create(uid=uid,sid=sid,s_type=s_type)
         return swipe
 
     @classmethod
@@ -50,7 +50,7 @@ class Friend(models.Model):
     def make_friends(cls,sid1,sid2):
         '''成为好友'''
         sid1,sid2=(sid2,sid1) if sid1>sid2 else (sid1,sid2)  #为了减少数据库操作,将两个id进行比较 小的放在前面
-        friend,_=cls.objects.get_or_create(sid1=sid1,sid2=sid2)       #添加一条好友记录
+        friend,_=cls.get_or_create(sid1=sid1,sid2=sid2)       #添加一条好友记录
         return friend
 
     @classmethod

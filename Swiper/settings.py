@@ -82,7 +82,12 @@ WSGI_APPLICATION = 'Swiper.wsgi.application'
 #     }
 # }
 
-
+#Redis配置
+REDIS={
+    'host':'localhost',
+    'port':6379,
+    'db':1,
+}
 
 
 # #Django数据库缓存配置

@@ -35,7 +35,7 @@ def check_vcode(request):
         print(cache_vcode)
         if v_code==cache_vcode:
             try:     #防止用户第一次进入界面报错所以使用了try
-                user=User.objects.get(phonenum=phone_num)
+                user=User.get(phonenum=phone_num)
             except User.DoesNotExist:
                 #用户不存在,创建一个用户
                 user=User.objects.create(phonenum=phone_num,nickname=phone_num)

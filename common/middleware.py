@@ -22,7 +22,7 @@ class AuthMiddleware(MiddlewareMixin):
         if uid:
             #很多请求都需要获取一下user所以在中间件中获取
             try:
-                request.user=User.objects.get(id=uid)#ruquest.user意思就是将user附加到这次request上
+                request.user=User.get(id=uid)#ruquest.user意思就是将user附加到这次request上
                 return
             except User.DoesNotExist:
                 return render_json(code=errors.UserDoesNotExist.code)

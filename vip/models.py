@@ -1,10 +1,9 @@
 from django.db import models
 
 # Create your models here.
-from libs.orm import ModelMixin
 
 
-class Vip(models.Model,ModelMixin):
+class Vip(models.Model):
     '''Vip表'''
     name=models.CharField(max_length=10,unique=True,verbose_name='会员名字')
     level=models.IntegerField(verbose_name='会员等级')
@@ -27,7 +26,7 @@ class Vip(models.Model,ModelMixin):
                 return True
         return False
 
-class Permission(models.Model,ModelMixin):
+class Permission(models.Model):
     '''权限表'''
     name=models.CharField(max_length=10,verbose_name='权限名字')
     description=models.TextField(verbose_name='权限详细简介')

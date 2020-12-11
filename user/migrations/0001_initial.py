@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
             options={
                 'db_table': 'profile',
             },
-            bases=(models.Model, libs.orm.ModelMixin),
+            bases=(models.Model),
         ),
         migrations.CreateModel(
             name='User',
@@ -49,6 +49,6 @@ class Migration(migrations.Migration):
             options={
                 'db_table': 'user',
             },
-            bases=(models.Model, libs.orm.ModelMixin),
+            bases=(models.Model),
         ),
     ]

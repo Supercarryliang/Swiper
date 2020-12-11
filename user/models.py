@@ -1,12 +1,11 @@
 from django.db import models
 
 # Create your models here.
-from libs.orm import ModelMixin
 from social.models import Friend
 from vip.models import Vip
 
 
-class User(models.Model,ModelMixin):
+class User(models.Model):
     SEX=(
         ('male','男性'),
         ('female','女性')
@@ -40,14 +39,14 @@ class User(models.Model,ModelMixin):
         #如果有了直接就能.出这个属性
         if not hasattr(self,'_profile'):
             #动态添加_profile属性
-            self._profile,_=Profile.objects.get_or_create(id=self.id)
+            self._profile,_=Profile.get_or_create(id=self.id)
         return self._profile
 
     @property
     def vip(self):
         '''用户的会员信息'''
         if not hasattr(self,'_vip'):
-            self._vip=Vip.objects.get(id=self.vip_id)
+            self._vip=Vip.get(id=self.vip_id)
         return self._vip
 
     @property
@@ -75,7 +74,7 @@ class User(models.Model,ModelMixin):
     class Meta:
         db_table='user'
 
-class Profile(models.Model,ModelMixin):
+class Profile(models.Model):
     SEX = (
         ('male', '男性'),
         ('female', '女性')
